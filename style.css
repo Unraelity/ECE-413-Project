@@ -1,5 +1,15 @@
 :root{
-      --ua-red:#AB0520;
-      --ua-blue:#0C234B;
-      --ua-white:#F4F1EA;
-    }
+    --ua-red:#AB0520;
+    --ua-blue:#0C234B;
+    --ua-white:#F4F1EA;
+}
+
+.member{
+    background:#fff;
+}
+
+.member img{
+    width:25%; 
+    height:300px; 
+    object-fit:cover;
+    background:#eee}
