@@ -1,0 +1,27 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a {
+    color: #00B7FF;
+}
+.bg-az-blue {
+    background-color: rgb(13, 36, 75);
+}
+
+.bg-az-red {
+    background-color: rgb(169, 11, 37);
+}
+
+.text-az-blue {
+    color: rgb(13, 36, 75);
+}
+
+.text-az-red {
+    color: rgb(169, 11, 37);
+}
+
+.nav-wrapper {
+    height: 65px;
+    margin-bottom: 25px;
+}

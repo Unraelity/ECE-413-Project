@@ -1,0 +1,49 @@
+<!-- public/references.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>References</title>
+  <style>
+    :root{
+      --ua-red:#AB0520; --ua-blue:#0C234B; --ink:#1f2937; --card:#ffffff; --bg:#f7f7f8;
+      --radius:16px; --shadow:0 8px 24px rgba(0,0,0,.06);
+    }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto; background:var(--bg); color:var(--ink); margin:0}
+    header{padding:24px 16px; border-bottom:4px solid var(--ua-red); background:var(--card)}
+    .container{max-width:960px; margin:0 auto; padding:24px 16px}
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
+    .badge{display:inline-block; padding:2px 8px; border-radius:999px; background:var(--ua-blue); color:#fff; font-size:12px}
+    a{color:var(--ua-blue)}
+  </style>
+</head>
+<body>
+  <header class="container">
+    <h1>References</h1>
+    <p class="badge">Third-party APIs • Libraries • Code</p>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <article class="card">
+        <h2>Chart.js</h2>
+        <p>Charts for weekly & daily views.</p>
+        <code>https://www.chartjs.org/</code>
+      </article>
+      <article class="card">
+        <h2>Express</h2>
+        <p>Server framework for REST endpoints.</p>
+        <code>https://expressjs.com/</code>
+      </article>
+      <article class="card">
+        <h2>MongoDB & Mongoose</h2>
+        <p>Data storage and models.</p>
+        <code>https://mongoosejs.com/</code>
+      </article>
+      <!-- Add any other APIs/libraries/code you used -->
+    </section>
+  </main>
+</body>
+</html>

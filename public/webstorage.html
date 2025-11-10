@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Webstorage Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javascripts/webstorage.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="left brand-logo valign-wrapper">Home</a>
+      <br/>
+      <h1>Webstorage example</h1>
+      <br/>
+      <div>
+        <div>
+          <label for="name">Name: </label>
+          <input type="text" id="name" placeholder="Enter name" name="name">
+        </div>
+        <div>
+          <label for="major">Major: </label>
+          <input type="text" id="major" placeholder="Enter major" name="major">
+        </div>
+        <br/>
+        <button id="btnSaveSessionStorage">Save (Session Storage)</button>
+        <button id="btnReadSessionStorage">Read (Session Storage)</button>
+        <button id="btnSaveLocalStorage">Save (Local Storage)</button>
+        <button id="btnReadLocalStorage">Read (Local Storage)</button>
+      </div>
+    </div>
+    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw; ">
+      <label for="rxData">Message: </label>
+      <textarea id="rxData" style="width:100%; height:100%"></textarea>
+    </div>
+  </body>
+</html>

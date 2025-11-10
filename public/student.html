@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MongoDB CRUD Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javascripts/student.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="left brand-logo valign-wrapper">Home</a>
+      <br/>
+      <h1>MongoDB CRUD Example</h1>
+      <br/>
+      <div>
+        <div>
+          <label for="name">Name: </label>
+          <input type="text" id="name" placeholder="Enter name" name="name">
+        </div>
+        <div>
+          <label for="major">Major: </label>
+          <input type="test" id="major" placeholder="Enter major" name="major">
+        </div>
+        <div>
+          <label for="gpa">GPA: </label>
+          <input type="number" id="gpa" placeholder="Enter gpa" name="gpa">
+        </div>
+        <br/>
+        <button id="btnCreate">Create</button>
+        <button id="btnRead">Read (using name)</button>
+        <button id="btnUpdate">Update</button>
+        <button id="btnDelete">Delete (using name)</button>
+        <button id="btnCount">Get # of Students in DB</button>
+        <button id="btnReadAll">Read all</button>
+        <button id="btnSearch">Search (> gpa) </button>
+      </div>
+    </div>
+    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw; ">
+      <label for="rxData">Message: </label>
+      <textarea id="rxData" style="width:100%; height:100%"></textarea>
+    </div>
+  </body>
+</html>

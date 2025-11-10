@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Authentication Example Sign up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javascripts/signup.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="left brand-logo valign-wrapper">Home</a>
+      <a href="login.html" class="left brand-logo valign-wrapper">LogIn</a>
+      <br/>
+      <h1>Token-based User authenticiation example - Sign Up</h1>
+      <br/>
+      <div>
+        <div>
+          <label for="email">Email: </label>
+          <input type="text" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div>
+          <label for="password">Password: </label>
+          <input type="password" id="password" placeholder="Enter password" name="password">
+        </div>
+        <br/>
+        <button id="btnSignUp">SingUp</button>
+      </div>
+    </div>
+    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw; ">
+      <label for="rxData">Message: </label>
+      <textarea id="rxData" style="width:100%; height:100%"></textarea>
+    </div>
+  </body>
+</html>
