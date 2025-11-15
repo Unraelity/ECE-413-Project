@@ -5,12 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const bodyParser = require('body-parser');     // Parses JSON in body
-// for mongDB
-const Student = require("./models/student");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var studentsRouter = require('./routes/students');
 var customersRouter = require('./routes/customers');
 var devicesRouter = require('./routes/devices');
 var readingsRouter = require('./routes/readings');
@@ -47,7 +44,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/students', studentsRouter);
 app.use('/customers', customersRouter);
 app.use('/devices', devicesRouter);
 app.use('/readings', readingsRouter);
