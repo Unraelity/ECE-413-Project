@@ -163,7 +163,25 @@ input[type="date"] {
   background:#fff; color: rgb(13,36,75);
   border-color: rgb(13,36,75);
 }
-.btn-ghost:hover { background:#f0f4f8; }
+.btn-ghost:hover {
+  background:#f0f4f8;
+}
+.btn-nav {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  padding: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+.btn-nav:hover,
+.btn-nav:focus {
+  text-decoration: underline;
+  outline: none;
+}
 
 .section-head {
   display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;

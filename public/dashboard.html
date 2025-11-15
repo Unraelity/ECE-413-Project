@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Heart Track — Dashboard</title>
   <link rel="stylesheet" href="/stylesheets/site.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="/javascripts/dashboard.js"></script>
 </head>
@@ -12,10 +13,10 @@
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
       <a class="text-az-white" href="/index.html">About</a>
-      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px">Dashboard</a>
+      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px;text-decoration:underline">Dashboard</a>
       <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
       <span style="margin-left:auto"></span>
-      <a id="btnLogOut" class="text-az-white" href="javascript:void(0)">Log Out</a>
+      <button id="btnLogOut" type="button" class="btn btn-nav">Log Out</button>
     </div>
   </nav>
 

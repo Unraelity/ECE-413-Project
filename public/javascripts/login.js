@@ -13,7 +13,7 @@ function login() {
     })
     .done(function (data, textStatus, jqXHR) {
         localStorage.setItem("token", data.token);
-        window.location.replace("account.html");
+        window.location.replace("dashboard.html");
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
         $('#rxData').html(JSON.stringify(jqXHR, null, 2));
