@@ -1,25 +1,46 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Heart Track — Dashboard</title>
-<link rel="stylesheet" href="/stylesheets/site.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script defer src="/javascripts/dashboard.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Track — Dashboard</title>
+  <link rel="stylesheet" href="/stylesheets/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="/javascripts/dashboard.js"></script>
 </head>
 <body class="bg-az-white">
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
       <a class="text-az-white" href="/index.html">About</a>
+      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px">Dashboard</a>
       <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
-      <button id="btnLogOut" style="float:right;margin-top:16px">Log Out</button>
+      <span style="margin-left:auto"></span>
+      <a id="btnLogOut" class="text-az-white" href="javascript:void(0)">Log Out</a>
     </div>
   </nav>
 
   <main class="container">
-    <h2 class="text-az-blue">Weekly Summary</h2>
-    <canvas id="weeklyChart" style="width:100%;height:280px"></canvas>
+    <section class="card" style="margin-bottom:16px">
+      <h2 class="text-az-blue" style="margin-top:0">Weekly Summary</h2>
+      <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
+    </section>
 
-    <h2 class="text-az-blue" style="margin-top:24px">Daily Detail</h2>
-    <input type="date" id="dayPick">
-    <canvas id="dayChart" style="width:100%;height:320px;margin-top:8px"></canvas>
+    <section class="card">
+      <div class="section-head">
+        <h2 class="text-az-blue" style="margin:0">Daily Detail</h2>
+        <div class="form-inline">
+          <label for="dayPick" class="muted">Date</label>
+          <input type="date" id="dayPick" />
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="dayChart"></canvas></div>
+    </section>
   </main>
-</body></html>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025, Nick Brown &amp; Abdullah Al Sahli · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
+    </div>
+  </footer>
+</body>
+</html>

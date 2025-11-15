@@ -1,49 +1,54 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>About</title>
-    <link rel="stylesheet" href="../stylesheet/style.css">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Track — About</title>
+  <link rel="stylesheet" href="/stylesheets/site.css">
 </head>
-<body>
-    <nav role="navigation">
-        <div>
-            <a href="index.html">About</a>
-            <a href="../references/reference.html">References</a>
+<body class="bg-az-white">
+  <nav class="nav-wrapper bg-az-blue" role="navigation">
+    <div class="container">
+      <a class="text-az-white" href="/index.html">About</a>
+      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px">Dashboard</a>
+      <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
+      <span style="margin-left:auto"></span>
+      <a class="text-az-white" href="/login.html">Log In</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1 class="text-az-blue" style="margin-top:0">Meet the Team</h1>
+    <p class="muted">Web Programming &amp; IoT • University of Arizona</p>
+
+    <section class="team-grid">
+      <article class="member-card">
+        <img src="/images/nick-brown.jpg" alt="Nick Brown headshot" class="member-photo">
+        <div class="member-body">
+          <h3 class="member-name">Nick Brown</h3>
+          <p class="member-role">Electrical &amp; Computer Engineering</p>
+          <p><a href="mailto:nickbrown@arizona.edu">nickbrown@arizona.edu</a></p>
         </div>
-    </nav>
-    <section>
-        <h2>Meet the Team</h2>
-        <div>
-          
-          <article class="member">
-              <img src="../images/nick-brown.jpg" alt="Photo of Nick Brown">
-              <div>
-                  <h3>Nick Brown</h3>
-                  <p>Electrical and Computer Engineering</p>
-                  <p><a href="mailto:nickbrown@arizona.edu">nickbrown@arizona.edu</a></p>
-              </div>
-          </article>
+      </article>
 
-        <article class="member">
-              <img src="../images/abdullah-al-sahli.jpg" alt="Photo of Abdullah Al Sahli">
-              <div>
-                  <h3>Abdullah Al Sahli</h3>
-                  <p>Electrical and Computer Engineering</p>
-                  <p><a href="mailto:alsahli02@arizona.edu">alsahli02@arizona.edu</a></p>
-              </div>
-        </article>
-
-      </div>
+      <article class="member-card">
+        <img src="/images/abdullah-al-sahli.jpg" alt="Abdullah Al Sahli headshot" class="member-photo">
+        <div class="member-body">
+          <h3 class="member-name">Abdullah Al Sahli</h3>
+          <p class="member-role">Electrical &amp; Computer Engineering</p>
+          <p><a href="mailto:alsahli02@arizona.edu">alsahli02@arizona.edu</a></p>
+        </div>
+      </article>
     </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        &copy; 2025, Nick Brown &amp; Abdullah Al Sahli ·
+        Web Development and IoT, Electrical and Computer Engineering, University of Arizona
+      </p>
+    </div>
+  </footer>
 </body>
-<footer>
-  <div>
-      <div>
-          &copy; 2025, Nick Brown & Abdullah Al Sahli
-          <span>Web Development and IoT, Electrical and Computer Engineering, University of Arizona</span>
-      </div>
-  </div>
-</footer>
 </html>

@@ -2,46 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>References</title>
-  <style>
-    :root{
-      --ua-red:#AB0520; --ua-blue:#0C234B; --ink:#1f2937; --card:#ffffff; --bg:#f7f7f8;
-      --radius:16px; --shadow:0 8px 24px rgba(0,0,0,.06);
-    }
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto; background:var(--bg); color:var(--ink); margin:0}
-    header{padding:24px 16px; border-bottom:4px solid var(--ua-red); background:var(--card)}
-    .container{max-width:960px; margin:0 auto; padding:24px 16px}
-    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
-    .badge{display:inline-block; padding:2px 8px; border-radius:999px; background:var(--ua-blue); color:#fff; font-size:12px}
-    a{color:var(--ua-blue)}
-  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Track — References</title>
+  <link rel="stylesheet" href="/stylesheets/site.css">
 </head>
-<body>
-  <header class="container">
-    <h1>References</h1>
-    <p class="badge">Third-party APIs • Libraries • Code</p>
-  </header>
+<body class="bg-az-white">
+  <nav class="nav-wrapper bg-az-blue" role="navigation">
+    <div class="container">
+      <a class="text-az-white" href="/index.html">About</a>
+      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px">Dashboard</a>
+      <a class="text-az-white" href="/reference.html" style="margin-left:16px;text-decoration:underline">References</a>
+      <span style="margin-left:auto"></span>
+      <a class="text-az-white" href="/login.html" style="margin-left:auto">Log In</a>
+    </div>
+  </nav>
 
   <main class="container">
-    <section class="grid">
+    <h1 class="text-az-blue" style="margin-top:0">References</h1>
+    <p class="muted"><span class="badge">Third-party APIs • Libraries • Code</span></p>
+
+    <section class="cards-grid">
       <article class="card">
-        <h2>Chart.js</h2>
-        <p>Charts for weekly & daily views.</p>
-        <code>https://www.chartjs.org/</code>
+        <h3>Chart.js</h3>
+        <p>Charts for weekly and daily views.</p>
+        <span class="ref-code">https://www.chartjs.org/</span>
       </article>
+
       <article class="card">
-        <h2>Express</h2>
+        <h3>Express</h3>
         <p>Server framework for REST endpoints.</p>
-        <code>https://expressjs.com/</code>
+        <span class="ref-code">https://expressjs.com/</span>
       </article>
+
       <article class="card">
-        <h2>MongoDB & Mongoose</h2>
-        <p>Data storage and models.</p>
-        <code>https://mongoosejs.com/</code>
+        <h3>MongoDB &amp; Mongoose</h3>
+        <p>Database and object modeling.</p>
+        <span class="ref-code">https://mongoosejs.com/</span>
       </article>
+
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025, Nick Brown &amp; Abdullah Al Sahli · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
+    </div>
+  </footer>
 </body>
 </html>
