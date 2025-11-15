@@ -1,23 +1,25 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Dashboard</title>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Heart Track — Dashboard</title>
+<link rel="stylesheet" href="/stylesheets/site.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="/javascripts/dashboard.js"></script>
 </head>
-<body>
-    <nav role="navigation">
-        <div>
-            <a href="../index/index.html">About</a>
-            <a href="../references/reference.html">References</a>
-        </div>
-    </nav>
-</body>
-<footer>
-  <div>
-      <div>
-          &copy; 2025, Nick Brown & Abdullah Al Sahli
-          <span>Web Development and IoT, Electrical and Computer Engineering, University of Arizona</span>
-      </div>
-  </div>
-</footer>
-</html>
+<body class="bg-az-white">
+  <nav class="nav-wrapper bg-az-blue" role="navigation">
+    <div class="container">
+      <a class="text-az-white" href="/index.html">About</a>
+      <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
+      <button id="btnLogOut" style="float:right;margin-top:16px">Log Out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h2 class="text-az-blue">Weekly Summary</h2>
+    <canvas id="weeklyChart" style="width:100%;height:280px"></canvas>
+
+    <h2 class="text-az-blue" style="margin-top:24px">Daily Detail</h2>
+    <input type="date" id="dayPick">
+    <canvas id="dayChart" style="width:100%;height:320px;margin-top:8px"></canvas>
+  </main>
+</body></html>
