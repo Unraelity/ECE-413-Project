@@ -1,36 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <title>Authentication Example Sign up</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="javascripts/signup.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Track — Sign Up</title>
+  <link rel="stylesheet" href="/stylesheets/site.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="/javascripts/signup.js"></script>
+</head>
+<body class="bg-az-white">
+  <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
-      <a href="index.html" class="left brand-logo valign-wrapper">Home</a>
-      <a href="login.html" class="left brand-logo valign-wrapper">LogIn</a>
-      <br/>
-      <h1>Token-based User authenticiation example - Sign Up</h1>
-      <br/>
-      <div>
-        <div>
-          <label for="email">Email: </label>
-          <input type="text" id="email" placeholder="Enter email" name="email">
+      <a class="text-az-white" href="/index.html">About</a>
+      <a class="text-az-white" href="/dashboard.html" style="margin-left:16px">Dashboard</a>
+      <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
+      <span style="margin-left:auto"></span>
+      <a class="text-az-white" href="/login.html">Log In</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1 class="text-az-blue" style="margin-top:0">Create your account</h1>
+    <p class="muted">Use your UA email to register for Heart Track.</p>
+
+    <section class="card" style="max-width:520px">
+      <div class="form-grid">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@arizona.edu" autocomplete="username" />
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="new-password" />
+
+        <div class="form-actions">
+          <button id="btnSignUp" class="btn btn-primary">Create account</button>
         </div>
-        <div>
-          <label for="password">Password: </label>
-          <input type="password" id="password" placeholder="Enter password" name="password">
-        </div>
-        <br/>
-        <button id="btnSignUp">SingUp</button>
       </div>
+
+      <pre id="rxData" class="muted" style="margin-top:12px; overflow:auto"></pre>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025, Nick Brown &amp; Abdullah Al Sahli · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
     </div>
-    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw; ">
-      <label for="rxData">Message: </label>
-      <textarea id="rxData" style="width:100%; height:100%"></textarea>
-    </div>
-  </body>
+  </footer>
+</body>
 </html>
