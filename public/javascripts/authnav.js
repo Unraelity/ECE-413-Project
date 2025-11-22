@@ -5,11 +5,18 @@
     var authArea = document.getElementById('authArea');
     var dashLink = document.getElementById('navDashboard');
 
-    // Left side: toggle Dashboard visibility
-    if (dashLink) dashLink.style.display = token ? '' : 'none';
+    if (dashLink) {
+        if (token) {
+            dashLink.style.display = '';
+        } else {
 
-    // Right side: auth controls
-    if (!authArea) return;
+            dashLink.style.display = 'none';
+        }
+    }
+
+    if (!authArea) {
+        return;
+    }
     if (token) {
       authArea.innerHTML = '<button id="btnLogOut" type="button" class="btn btn-nav">Log Out</button>';
       var btn = document.getElementById('btnLogOut');
