@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/nicholasbrown/Documents/ECE-413-Project/firmware/src",
+      "program": "/Users/nicholasbrown/Documents/ECE-413-Project/firmware/src/build/Debug/outDebug"
+    }
+  ]
+}

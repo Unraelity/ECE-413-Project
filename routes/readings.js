@@ -4,14 +4,25 @@ const auth = require("../middleware/auth");
 const Device = require("../models/device");
 const Reading = require("../models/reading");
 
+const INTEGRATION_SECRET = process.env.INTEGRATION_SECRET || "dev-secret";
+
 // post user readings
 router.post("/", async (req, res) => {
-  const apiKey = req.headers["x-api-key"];
-  if (!apiKey) return res.status(401).json({ error: "Missing API key" }); // spec says require API KEY
-  const dev = await Device.findOne({ apiKey });
-  if (!dev) return res.status(401).json({ error: "Bad API key" });
-  const r = await Reading.create({ deviceId: dev._id, hr: req.body.hr, spo2: req.body.spo2, ts: req.body.ts || Date.now() });
-  return res.status(201).json({ _id: r._id });
+  // Webhook auth
+  const secret = req.get("x-integration-key");
+  if (secret !== INTEGRATION_SECRET) return res.status(401).json({ error: "Bad integration key" });
+
+  // Payload from P2 publish
+  const { deviceId, hr, spo2, ts } = req.body || {};
+  if (!deviceId || typeof hr !== "number" || typeof spo2 !== "number")
+    return res.status(400).json({ error: "Missing deviceId/hr/spo2" });
+
+  const dev = await Device.findOne({ particleId: deviceId }).select("_id");
+  if (!dev) return res.status(404).json({ error: "Device not registered" });
+
+  const stamp = ts ? new Date(ts * 1000) : new Date(); // P2 sends seconds; adjust if ISO
+  const doc = await Reading.create({ deviceId: dev._id, ts: stamp, hr, spo2 });
+  return res.status(201).json({ _id: doc._id });
 });
 
 // get the user’s readings for that day

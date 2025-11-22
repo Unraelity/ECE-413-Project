@@ -192,3 +192,18 @@ input[type="date"] {
 .chart-wrap canvas {
   width:100% !important; height:100% !important;
 }
+
+.devices-list { margin-top:6px; }
+.device-row {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:10px 0; border-top:1px solid #e5e7eb;
+}
+.device-meta { display:flex; flex-direction:column; }
+.device-name { font-weight:600; }
+.api-line { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.code-badge {
+  display:inline-block; padding:6px 10px; border-radius:8px;
+  background:#f3f4f6; font-family: ui-monospace, Menlo, Consolas, monospace;
+  word-break:break-all;
+}
+.small { font-size:12px; }

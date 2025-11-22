@@ -38,6 +38,23 @@
     </section>
   </main>
 
+  <section class="card" style="margin-bottom:16px">
+    <div class="section-head">
+      <h2 class="text-az-blue" style="margin:0">Devices</h2>
+      <button id="btnRefreshDevices" class="btn btn-ghost">Refresh</button>
+    </div>
+
+    <div class="form-inline" style="flex-wrap:wrap;gap:12px;margin-bottom:8px">
+      <label for="deviceName" class="muted">Name</label>
+      <input id="deviceName" type="text" placeholder="Hawkspire HRM" />
+      <label for="particleId" class="muted">Particle Device ID</label>
+      <input id="particleId" type="text" placeholder="e.g., e00fce0XXXXXXX" />
+      <button id="btnRegisterDevice" class="btn btn-primary">Register Device</button>
+    </div>
+
+    <div id="devicesList" class="devices-list muted"><!-- rendered by JS --></div>
+  </section>
+
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
