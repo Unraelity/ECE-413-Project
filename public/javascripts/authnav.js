@@ -1,14 +1,17 @@
+// Shows Dashboard link only when logged in; puts Log In/Log Out on the right
 (function () {
-  function displayAuthNav() {
+  function mountNav() {
     var token = localStorage.getItem('token');
-    var slot = document.getElementById('authArea');
-    if (!slot) return;
+    var authArea = document.getElementById('authArea');
+    var dashLink = document.getElementById('navDashboard');
 
+    // Left side: toggle Dashboard visibility
+    if (dashLink) dashLink.style.display = token ? '' : 'none';
+
+    // Right side: auth controls
+    if (!authArea) return;
     if (token) {
-      slot.innerHTML =
-        '<a class="text-az-white" href="/dashboard.html" style="margin-right:16px">Dashboard</a>' +
-        '<button id="btnLogOut" type="button" class="btn btn-nav">Log Out</button>';
-
+      authArea.innerHTML = '<button id="btnLogOut" type="button" class="btn btn-nav">Log Out</button>';
       var btn = document.getElementById('btnLogOut');
       if (btn) {
         btn.addEventListener('click', function () {
@@ -17,9 +20,8 @@
         });
       }
     } else {
-      slot.innerHTML = '<a class="text-az-white" href="/login.html">Log In/Sign Up</a>';
+      authArea.innerHTML = '<a class="text-az-white" href="/login.html">Log In/Sign Up</a>';
     }
   }
-
-  document.addEventListener('DOMContentLoaded', displayAuthNav);
+  document.addEventListener('DOMContentLoaded', mountNav);
 })();
