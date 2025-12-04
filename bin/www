@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('dotenv').config(); 
+
 /**
  * Module dependencies.
  */
@@ -16,6 +18,11 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
+ * Integration secret (IoT API key)
+ */
+const INTEGRATION_SECRET = process.env.INTEGRATION_SECRET || "dev-secret";
+
+/**
  * Create HTTP server.
  */
 
@@ -26,6 +33,7 @@ var server = http.createServer(app);
  */
 
 server.listen(port, function () {
+  console.log(`Generated API Key: ${INTEGRATION_SECRET}`);
   console.log(`server listening at http://localhost:${port}`);
 });
 server.on('error', onError);
