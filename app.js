@@ -7,7 +7,6 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');     // Parses JSON in body
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var customersRouter = require('./routes/customers');
 var devicesRouter = require('./routes/devices');
 var readingsRouter = require('./routes/readings');
@@ -43,7 +42,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/customers', customersRouter);
 app.use('/devices', devicesRouter);
 app.use('/readings', readingsRouter);
