@@ -1,0 +1,47 @@
+============================
+Particle Device (P2) Info
+============================
+
+Device type: Particle P2
+
+Device name (from Console):
+  413_photon
+
+Device ID:
+  0a10aced202194944a064f08
+
+Event name published by firmware:
+  temp
+
+Event payload format:
+  For now: String of beats-per-minute, e.g. "73.4"
+
+Publish example:
+  Particle.publish("activity", String(beatsPerMinute), PRIVATE);
+
+============================
+Backend / Webhook Info
+============================
+
+Webhook URL:
+  http://ec2-3-138-107-164.us-east-2.compute.amazonaws.com:3000/readings
+
+HTTP method:
+  POST
+
+Headers:
+  Content-Type: application/json
+  x-integration-key: BVTxq84B96nha01Io3Rjma1rw2y4S1xT
+
+Body template (in Particle Console):
+  {
+    "deviceId": "{{{PARTICLE_DEVICE_ID}}}",
+    "hr": {{{hr}}},
+    "spo2": {{{spo2}}},
+    "ts": {{{PARTICLE_PUBLISHED_AT}}}
+  }
+
+Notes:
+  - hr and spo2 are fields parsed from the event data (or hardcoded for testing).
+  - The server validates x-integration-key against INTEGRATION_SECRET in the .env file.
+  - The /readings route looks up Device.particleId == deviceId and stores a Reading document.
