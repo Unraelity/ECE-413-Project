@@ -20,7 +20,13 @@ router.post("/", async (req, res) => {
   const dev = await Device.findOne({ particleId: deviceId }).select("_id");
   if (!dev) return res.status(404).json({ error: "Device not registered" });
 
-  const stamp = ts ? new Date(ts * 1000) : new Date(); // P2 sends seconds; adjust if ISO
+  let stamp = new Date();
+  if (ts) {
+    const n = Number(ts);
+    stamp = Number.isFinite(n) ? new Date(n * 1000) : new Date(ts); // seconds OR ISO
+  }
+  if (isNaN(stamp.getTime())) return res.status(400).json({ error: "Invalid ts" });
+
   const doc = await Reading.create({ deviceId: dev._id, ts: stamp, hr, spo2 });
   return res.status(201).json({ _id: doc._id });
 });

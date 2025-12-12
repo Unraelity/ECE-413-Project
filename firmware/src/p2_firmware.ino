@@ -21,7 +21,7 @@ void setup() {
     Serial.println("Initializing MAX30105...");
 
     // subscribe to webhook responses (not strictly required for project)
-    Particle.subscribe("hook-response/bpm", handle, MY_DEVICES);
+    Particle.subscribe("hook-response/temp", handle, MY_DEVICES);
 
     // initialize sensor
     if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) {
@@ -53,9 +53,10 @@ void loop() {
 
         // publish BPM as the event value
         // Webhook will map this to "hr" and set spo2 in the template
-        Particle.publish("activity", String(beatsPerMinute), PRIVATE);
+        Particle.publish("temp", String(beatsPerMinute), PRIVATE);
         Serial.printlnf("Published activity: %0.1f bpm (IR: %ld)", beatsPerMinute, irValue);
     } else {
+        Particle.publish("temp", String(beatsPerMinute), PRIVATE);
         Serial.printlnf("No finger detected (IR: %ld)", irValue);
     }
 

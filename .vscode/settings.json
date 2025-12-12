@@ -55,5 +55,8 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "particle.targetDevice": "413_photon",
+  "particle.targetPlatform": "p2",
+  "particle.firmwareVersion": "6.3.4"
 }
