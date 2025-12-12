@@ -14,7 +14,10 @@ router.post("/", async (req, res) => {
 
   // Payload from P2 publish
   const { deviceId, hr, spo2, ts } = req.body || {};
-  if (!deviceId || typeof hr !== "number" || typeof spo2 !== "number")
+  const hrNum = Number(hr);
+  const spo2Num = Number(spo2);
+
+  if (!deviceId || Number.isFinite(hr) || !Number.isFinite(spo2))
     return res.status(400).json({ error: "Missing deviceId/hr/spo2" });
 
   const dev = await Device.findOne({ particleId: deviceId }).select("_id");
