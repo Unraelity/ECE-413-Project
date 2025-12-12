@@ -15,6 +15,9 @@ void setup() {
     pinMode(led, OUTPUT);
 
     Serial.begin(9600);
+    waitFor(Serial.isConnected, 10000); // wait up to 10s for USB serial
+    delay(500);
+
     Serial.println("Initializing MAX30105...");
 
     // subscribe to webhook responses (not strictly required for project)
@@ -31,7 +34,8 @@ void setup() {
             delay(200);
         }
     }
-
+    
+    Serial.println("MAX30105 initialized, starting loop.");
     // Use default sensor configuration
     particleSensor.setup(); 
 }

@@ -1,6 +1,6 @@
 $(function () {
   const token = localStorage.getItem("token");
-  if (!token) return location.replace("display.html");
+  if (!token) return location.replace("login.html");
 
   $('#btnLogOut').click(() => { 
     localStorage.removeItem("token");
@@ -14,7 +14,7 @@ $(function () {
 
   // daily chart for selected day
   $('#dayPick').val(new Date().toISOString().slice(0,10)).change(loadDay);
-  loadDay(token);
+  loadDay();
 
   function loadDay(){
     $.ajax({ url: '/readings?day=' + $('#dayPick').val(), method: 'GET',
@@ -24,7 +24,7 @@ $(function () {
 
   $('#btnRegisterDevice').click(registerDevice);
   $('#btnRefreshDevices').click(loadDevices);
-  loadDevices(token);
+  loadDevices();
 });
 
 function showErr(e){ console.log(e); alert("Request failed"); }

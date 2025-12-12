@@ -714,6 +714,8 @@ bool MAX30105::safeCheck(uint8_t maxTimeToCheck)
 
 	delay(1);
   }
+
+  return false;
 }
 
 //Given a register, read it, mask it, and then set the thing
