@@ -43,22 +43,24 @@ void setup() {
 void loop() {
     digitalWrite(led, HIGH);
 
-    // read IR value (used as proxy here for “finger present”)
     long irValue = particleSensor.getIR();
 
-    // simple threshold to check if a finger is on the sensor
-    if (irValue > 10000) {
-        // your approximate BPM calculation
-        beatsPerMinute = irValue / 1831.0;
+    float hr = 0.0;
+    float spo2 = 97.5; // placeholder until real algorithm
 
-        // publish BPM as the event value
-        // Webhook will map this to "hr" and set spo2 in the template
-        Particle.publish("temp", String(beatsPerMinute), PRIVATE);
-        Serial.printlnf("Published activity: %0.1f bpm (IR: %ld)", beatsPerMinute, irValue);
+    if (irValue > 10000) {
+        beatsPerMinute = irValue / 1831.0;
+        hr = beatsPerMinute;
+        Serial.printlnf("Finger detected (IR: %ld)", irValue);
     } else {
-        Particle.publish("temp", String(beatsPerMinute), PRIVATE);
-        Serial.printlnf("No finger detected (IR: %ld)", irValue);
+        Serial.printlnf("No finger (IR: %ld)", irValue);
     }
 
-    delay(2000); // 2 seconds between samples/publishes
+    char payload[64];
+    snprintf(payload, sizeof(payload), "%.1f,%.1f", hr, spo2);
+
+    Particle.publish("temp", payload, PRIVATE);
+    Serial.printlnf("Published: %s", payload);
+
+    delay(2000);
 }

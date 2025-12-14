@@ -8,28 +8,34 @@ const INTEGRATION_SECRET = process.env.INTEGRATION_SECRET || "dev-secret";
 
 // post user readings
 router.post("/", async (req, res) => {
-  // Webhook auth
   const secret = req.get("x-integration-key");
   if (secret !== INTEGRATION_SECRET) return res.status(401).json({ error: "Bad integration key" });
 
   const { deviceId, reading, ts } = req.body || {};
 
-  let hr, spo2;
+  if (!deviceId || typeof reading !== "string") {
+    return res.status(400).json({ error: "Missing deviceId/reading" });
+  }
 
   const parts = reading.split(",").map(s => s.trim());
-  if (parts.length >= 2) {
-    hr = Number(parts[0]);
-    spo2 = Number(parts[1]);
+  if (parts.length < 2) {
+    return res.status(400).json({ error: "Invalid reading format (expected hr,spo2)" });
   }
 
-  if (!deviceId || !Number.isFinite(hr) || !Number.isFinite(spo2)) {
-    return res.status(400).json({ error: "Missing deviceId/hr/spo2" });
+  const hr = Number(parts[0]);
+  const spo2 = Number(parts[1]);
+
+  if (!Number.isFinite(hr) || !Number.isFinite(spo2)) {
+    return res.status(400).json({ error: "Invalid hr/spo2" });
   }
+
+  const dev = await Device.findOne({ particleId: deviceId }).select("_id");
+  if (!dev) return res.status(404).json({ error: "Device not registered" });
 
   let stamp = new Date();
   if (ts) {
     const n = Number(ts);
-    stamp = Number.isFinite(n) ? new Date(n * 1000) : new Date(ts); // seconds OR ISO
+    stamp = Number.isFinite(n) ? new Date(n * 1000) : new Date(ts);
   }
   if (isNaN(stamp.getTime())) return res.status(400).json({ error: "Invalid ts" });
 
