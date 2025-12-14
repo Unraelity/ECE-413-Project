@@ -14,6 +14,8 @@ router.post("/", async (req, res) => {
 
   const { deviceId, reading, ts } = req.body || {};
 
+  let hr, spo2;
+
   const parts = reading.split(",").map(s => s.trim());
   if (parts.length >= 2) {
     hr = Number(parts[0]);
