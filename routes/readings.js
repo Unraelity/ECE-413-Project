@@ -12,16 +12,17 @@ router.post("/", async (req, res) => {
   const secret = req.get("x-integration-key");
   if (secret !== INTEGRATION_SECRET) return res.status(401).json({ error: "Bad integration key" });
 
-  // Payload from P2 publish
-  const { deviceId, hr, spo2, ts } = req.body || {};
-  const hrNum = Number(hr);
-  const spo2Num = Number(spo2);
+  const { deviceId, reading, ts } = req.body || {};
 
-  if (!deviceId || Number.isFinite(hr) || !Number.isFinite(spo2))
+  const parts = reading.split(",").map(s => s.trim());
+  if (parts.length >= 2) {
+    hr = Number(parts[0]);
+    spo2 = Number(parts[1]);
+  }
+
+  if (!deviceId || !Number.isFinite(hr) || !Number.isFinite(spo2)) {
     return res.status(400).json({ error: "Missing deviceId/hr/spo2" });
-
-  const dev = await Device.findOne({ particleId: deviceId }).select("_id");
-  if (!dev) return res.status(404).json({ error: "Device not registered" });
+  }
 
   let stamp = new Date();
   if (ts) {
