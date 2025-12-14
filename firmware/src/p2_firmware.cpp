@@ -1,4 +1,14 @@
+/******************************************************/
+//       THIS IS A GENERATED FILE - DO NOT EDIT       //
+/******************************************************/
+
+#include "Particle.h"
+#line 1 "/Users/nicholasbrown/Documents/HeartRateMonitor/src/p2_firmware.ino"
 // SYSTEM_MODE(AUTOMATIC);
+void handle(const char *event, const char *data);
+void setup();
+void loop();
+#line 2 "/Users/nicholasbrown/Documents/HeartRateMonitor/src/p2_firmware.ino"
 SYSTEM_THREAD(ENABLED);
 
 #include <Wire.h>
