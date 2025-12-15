@@ -29,9 +29,7 @@ router.post("/", async (req, res) => {
       spo2 = Number(payload.spo2);
     }
   } catch (e) {
-    // old behavior: reading is just "72.3"
-    hr = Number(reading);
-    spo2 = 75; // default if you want one
+    return res.status(400).json({ error: "Payload is not an object" });
   }
 
   if (!deviceId) return res.status(400).json({ error: "Missing deviceId" });
