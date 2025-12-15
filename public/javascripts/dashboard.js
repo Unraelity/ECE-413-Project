@@ -104,3 +104,75 @@ function registerDevice(){
   }).done(()=>{ $('#deviceName').val(''); $('#particleId').val(''); loadDevices(); })
     .fail(jq=>alert(jq.responseText || 'Registration failed'));
 }
+
+
+// --- Chat Panel Toggle ---
+const chatBtn = document.getElementById("chatButton");
+const chatPanel = document.getElementById("chatPanel");
+const closeChat = document.getElementById("closeChat");
+
+chatBtn.addEventListener("click", () => {
+  chatPanel.classList.add("open");
+});
+
+closeChat.addEventListener("click", () => {
+  chatPanel.classList.remove("open");
+});
+
+// --- Chat Message UI (backend wiring added later) ---
+const chatMessages = document.getElementById("chatMessages");
+const chatInput = document.getElementById("chatInput");
+const chatSendBtn = document.getElementById("chatSendBtn");
+
+function addChatMessage(text, sender) {
+  const msg = document.createElement("div");
+  msg.classList.add("chat-msg", sender);
+  msg.textContent = text;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+chatSendBtn.addEventListener("click", sendChat);
+chatInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") sendChat();
+});
+
+async function sendChat() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+
+  addChatMessage(text, "user");
+  chatInput.value = "";
+
+  const thinkingMsg = document.createElement("div");
+  thinkingMsg.classList.add("chat-msg", "bot");
+  thinkingMsg.textContent = "Thinking...";
+  chatMessages.appendChild(thinkingMsg);
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/ai/ask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth": token
+      },
+      body: JSON.stringify({ question: text })
+    });
+
+    const data = await res.json();
+
+    thinkingMsg.remove();
+
+    if (data.reply) {
+      addChatMessage(data.reply, "bot");
+    } else {
+      addChatMessage("No response from AI.", "bot");
+    }
+  } catch (err) {
+    thinkingMsg.remove();
+    addChatMessage("Error contacting AI server.", "bot");
+  }
+}
+

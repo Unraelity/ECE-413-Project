@@ -60,5 +60,28 @@
       <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
     </div>
   </footer>
+  <!-- Floating Chat Icon -->
+  <button id="chatButton" class="chat-button">
+      💬
+  </button>
+
+  <!-- Slide-in Chat Panel -->
+  <div id="chatPanel" class="chat-panel">
+
+      <div class="chat-header">
+          <span>AI Health Assistant</span>
+          <button id="closeChat" class="close-chat-btn">✖</button>
+      </div>
+
+      <div id="chatMessages" class="chat-messages">
+          <!-- messages inserted by JS -->
+      </div>
+
+      <div class="chat-input-area">
+          <input id="chatInput" type="text" placeholder="Ask a question…" />
+          <button id="chatSendBtn">Send</button>
+      </div>
+
+  </div>
 </body>
 </html>
