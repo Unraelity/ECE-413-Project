@@ -11,23 +11,46 @@ router.post("/", async (req, res) => {
   const secret = req.get("x-integration-key");
   if (secret !== INTEGRATION_SECRET) return res.status(401).json({ error: "Bad integration key" });
 
-  const { deviceId, reading, ts } = req.body || {};
+  const { deviceId: topDeviceId, reading, ts: topTs } = req.body || {};
 
-  if (!deviceId || typeof reading !== "string") {
+  if (!topDeviceId || typeof reading !== "string") {
     return res.status(400).json({ error: "Missing deviceId/reading" });
   }
 
-  let hr = Number(reading);
-  let spo2 = 75
+  // --- NEW: parse reading as JSON if possible ---
+  let deviceId = topDeviceId;
+  let hr;
+  let spo2;
+
+  try {
+    const payload = JSON.parse(reading); // reading is JSON string now
+    if (payload && typeof payload === "object") {
+      // allow deviceId/hr/spo2 to come from the payload
+      deviceId = payload.deviceId || deviceId;
+      hr = Number(payload.hr);
+      spo2 = Number(payload.spo2);
+    }
+  } catch (e) {
+    // old behavior: reading is just "72.3"
+    hr = Number(reading);
+    spo2 = 75; // default if you want one
+  }
+
+  if (!deviceId) return res.status(400).json({ error: "Missing deviceId" });
 
   if (!Number.isFinite(hr)) {
     return res.status(400).json({ error: "Invalid hr" });
   }
 
+  // if spo2 didn't come through, set a default
+  if (!Number.isFinite(spo2)) spo2 = 75;
+
   const dev = await Device.findOne({ particleId: deviceId }).select("_id");
   if (!dev) return res.status(404).json({ error: "Device not registered" });
 
+  // ts may still be top-level (your current webhook), but allow payload ts later if you add it
   let stamp = new Date();
+  const ts = topTs;
   if (ts) {
     const n = Number(ts);
     stamp = Number.isFinite(n) ? new Date(n * 1000) : new Date(ts);
@@ -37,6 +60,7 @@ router.post("/", async (req, res) => {
   const doc = await Reading.create({ deviceId: dev._id, ts: stamp, hr, spo2 });
   return res.status(201).json({ _id: doc._id });
 });
+
 
 // get the user’s readings for that day
 router.get("/", auth, async (req, res) => {
