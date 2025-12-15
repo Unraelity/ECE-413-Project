@@ -17,16 +17,11 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Missing deviceId/reading" });
   }
 
-  const parts = reading.split(",").map(s => s.trim());
-  if (parts.length < 2) {
-    return res.status(400).json({ error: "Invalid reading format (expected hr,spo2)" });
-  }
+  let hr = Number(reading);
+  let spo2 = 75
 
-  const hr = Number(parts[0]);
-  const spo2 = Number(parts[1]);
-
-  if (!Number.isFinite(hr) || !Number.isFinite(spo2)) {
-    return res.status(400).json({ error: "Invalid hr/spo2" });
+  if (!Number.isFinite(hr)) {
+    return res.status(400).json({ error: "Invalid hr" });
   }
 
   const dev = await Device.findOne({ particleId: deviceId }).select("_id");
