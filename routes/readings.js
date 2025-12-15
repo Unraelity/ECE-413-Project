@@ -25,8 +25,6 @@ router.post("/", async (req, res) => {
   try {
     const payload = JSON.parse(reading); // reading is JSON string now
     if (payload && typeof payload === "object") {
-      // allow deviceId/hr/spo2 to come from the payload
-      deviceId = payload.deviceId || deviceId;
       hr = Number(payload.hr);
       spo2 = Number(payload.spo2);
     }
