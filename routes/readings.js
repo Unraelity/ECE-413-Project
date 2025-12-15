@@ -17,7 +17,6 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Missing deviceId/reading" });
   }
 
-  // --- NEW: parse reading as JSON if possible ---
   let deviceId = topDeviceId;
   let hr;
   let spo2;
