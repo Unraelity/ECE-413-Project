@@ -163,7 +163,7 @@ function renderDay(docs) {
   const filtered = sorted.filter((x) => {
     const mins = x.ts.getHours() * 60 + x.ts.getMinutes();
     if (endMin >= startMin) return mins >= startMin && mins <= endMin;
-    return mins >= startMin || mins <= endMin; // crossing midnight
+    return mins >= startMin || mins <= endMin;
   });
 
   const labels = filtered.map((x) =>
@@ -364,7 +364,7 @@ let readingPromptTimer = null;
 
 const ReadingPromptFSM = (function () {
   let state = "INIT";
-  let freqMins = 30;   // default of 30 minutes
+  let freqMins = 30;
 
   const PROMPT_ID = "#readingPrompt";
   const BTN_DONE = "#btnPromptDone";
