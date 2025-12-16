@@ -59,26 +59,18 @@ $(function () {
       dataType: "json",
     })
       .done((cfg) => {
-        $("#cfgStart").val(cfg?.startTime || "06:00");
-        $("#cfgEnd").val(cfg?.endTime || "22:00");
         $("#cfgFreq").val(Number.isFinite(cfg?.freqMins) ? cfg.freqMins : 30);
         $("#scheduleStatus").text("");
         loadDay();
       })
       .fail(() => {
-        $("#cfgStart").val("06:00");
-        $("#cfgEnd").val("22:00");
         $("#cfgFreq").val(30);
         $("#scheduleStatus").text("");
       });
   }
 
   function saveSchedule() {
-    const startTime = $("#cfgStart").val();
-    const endTime = $("#cfgEnd").val();
     const freqMins = parseInt($("#cfgFreq").val(), 10);
-
-    if (!isHHMM(startTime) || !isHHMM(endTime)) return alert("Start/End must be HH:MM.");
     if (!Number.isFinite(freqMins) || freqMins < 1) return alert("Frequency must be a positive number (minutes).");
 
     $("#scheduleStatus").text("Saving…");
@@ -87,7 +79,7 @@ $(function () {
       method: "PUT",
       headers: { "x-auth": token },
       contentType: "application/json",
-      data: JSON.stringify({ startTime, endTime, freqMins }),
+      data: JSON.stringify({ freqMins }),
     })
       .done(() => {
         $("#scheduleStatus").text("Saved");
@@ -99,6 +91,8 @@ $(function () {
         alert(jq.responseText || "Failed to save schedule");
       });
   }
+
+  startReadingPromptFSM();
 });
 
 function showErr(e) {
@@ -363,4 +357,108 @@ async function sendChat() {
     thinkingMsg.remove();
     addChatMessage("Error contacting AI server.", "bot");
   }
+}
+
+// reading prompt FSM
+let readingPromptTimer = null;
+
+const ReadingPromptFSM = (function () {
+  let state = "INIT";
+  let freqMins = 30;   // default of 30 minutes
+
+  const PROMPT_ID = "#readingPrompt";
+  const BTN_DONE = "#btnPromptDone";
+  const BTN_SNOOZE = "#btnPromptSnooze";
+  const BTN_DISMISS = "#btnPromptDismiss";
+
+  function showPrompt() { $(PROMPT_ID).show(); }
+  function hidePrompt() { $(PROMPT_ID).hide(); }
+
+  function schedule(ms) {
+    clearTimeout(readingPromptTimer);
+    readingPromptTimer = setTimeout(() => dispatch("DUE"), ms);
+  }
+
+  function loadFrequency() {
+    const token = localStorage.getItem("token");
+    return $.ajax({
+      url: "/customers/settings",
+      method: "GET",
+      headers: { "x-auth": token },
+      dataType: "json"
+    })
+      .done(cfg => {
+        const f = parseInt(cfg?.freqMins, 10);
+        if (Number.isFinite(f) && f >= 1 && f <= 1440) freqMins = f;
+      })
+      .fail(() => {
+        freqMins = 30;
+      });
+  }
+
+  function dispatch(event) {
+    switch (state) {
+      case "INIT":
+      
+        $(BTN_DONE).off("click").on("click", () => dispatch("DONE"));
+        $(BTN_SNOOZE).off("click").on("click", () => dispatch("SNOOZE"));
+        $(BTN_DISMISS).off("click").on("click", () => dispatch("DISMISS"));
+
+        loadFrequency().always(() => dispatch("READY"));
+        state = "LOADING";
+        break;
+
+      case "LOADING":
+        if (event === "READY") {
+          hidePrompt();
+          schedule(freqMins * 60 * 1000);
+          state = "IDLE";
+        }
+        break;
+
+      case "IDLE":
+        if (event === "DUE") {
+          showPrompt();
+          state = "PROMPTING";
+        }
+        break;
+
+      case "PROMPTING":
+        if (event === "DONE") {
+          hidePrompt();
+          schedule(freqMins * 60 * 1000);
+          state = "IDLE";
+        } else if (event === "SNOOZE") {
+          hidePrompt();
+          schedule(5 * 60 * 1000);
+          state = "IDLE";
+        } else if (event === "DISMISS") {
+          hidePrompt();
+          schedule(freqMins * 60 * 1000);
+          state = "IDLE";
+        }
+        break;
+
+      default:
+        state = "INIT";
+        break;
+    }
+  }
+
+  function start() { dispatch("START"); }
+  function setFrequency(newFreqMins) {
+    const f = parseInt(newFreqMins, 10);
+    if (Number.isFinite(f) && f >= 1 && f <= 1440) {
+      freqMins = f;
+      hidePrompt();
+      schedule(freqMins * 60 * 1000);
+      state = "IDLE";
+    }
+  }
+
+  return { start, setFrequency };
+})();
+
+function startReadingPromptFSM() {
+  ReadingPromptFSM.start();
 }
