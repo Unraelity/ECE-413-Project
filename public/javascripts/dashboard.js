@@ -1,5 +1,3 @@
-/* global Chart, $ */
-
 let weeklyChart = null;
 let hrChart = null;
 let spo2Chart = null;
@@ -13,20 +11,20 @@ $(function () {
     location = "login.html";
   });
 
-  // Schedule
+  // schedule
   $("#btnSaveSchedule").on("click", saveSchedule);
   loadSchedule();
 
-  // Weekly
+  // weekly
   loadWeekly();
 
-  // Daily
+  // daily
   $("#dayPick")
     .val(localDateYYYYMMDD(new Date()))
     .on("change", loadDay);
   loadDay();
 
-  // Devices
+  // devices
   $("#btnRegisterDevice").on("click", registerDevice);
   $("#btnRefreshDevices").on("click", loadDevices);
   loadDevices();
@@ -65,10 +63,9 @@ $(function () {
         $("#cfgEnd").val(cfg?.endTime || "22:00");
         $("#cfgFreq").val(Number.isFinite(cfg?.freqMins) ? cfg.freqMins : 30);
         $("#scheduleStatus").text("");
-        loadDay(); // apply filter
+        loadDay();
       })
       .fail(() => {
-        // fallback defaults
         $("#cfgStart").val("06:00");
         $("#cfgEnd").val("22:00");
         $("#cfgFreq").val(30);
@@ -109,7 +106,7 @@ function showErr(e) {
   alert("Request failed");
 }
 
-// Weekly: force 7 days, Avg is a BAR now
+// weekly: force 7 days, Avg is a BAR now
 function renderWeekly(rows) {
   const byDate = new Map((rows || []).map((r) => [r.date, r]));
 
@@ -159,7 +156,7 @@ function renderWeekly(rows) {
   });
 }
 
-// Daily: separate charts + destroy old charts + mark min/max points
+// daily: separate charts + destroy old charts + mark min/max points
 function renderDay(docs) {
   const startMin = hhmmToMinutes($("#cfgStart").val() || "00:00");
   const endMin = hhmmToMinutes($("#cfgEnd").val() || "23:59");
@@ -234,7 +231,7 @@ function renderSeriesChart({ canvasId, title, yLabel, labels, values }) {
   if (canvasId === "spo2Chart") spo2Chart = chart;
 }
 
-// Devices
+// devices
 function renderDevices(list) {
   const $wrap = $("#devicesList").empty();
   if (!list || list.length === 0) return $wrap.html("<em>No devices yet. Register one above.</em>");
@@ -294,7 +291,7 @@ function registerDevice() {
     .fail((jq) => alert(jq.responseText || "Registration failed"));
 }
 
-// Helpers
+// helpers
 function localDateYYYYMMDD(d) {
   const yyyy = d.getFullYear();
   const mm = String(d.getMonth() + 1).padStart(2, "0");
@@ -321,7 +318,7 @@ function escapeHtml(s) {
     .replaceAll("'", "&#039;");
 }
 
-// Chat (guarded so it won’t crash if elements ever missing)
+// chatbot
 const chatBtn = document.getElementById("chatButton");
 const chatPanel = document.getElementById("chatPanel");
 const closeChat = document.getElementById("closeChat");

@@ -95,9 +95,8 @@ void setup() {
 
     Serial.println("MAX30105 initialized, starting loop.");
 
-    particleSensor.setup(); // keep this simple
+    particleSensor.setup();
 
-    // --- NEW: make sure Red+IR LEDs are actually on ---
     particleSensor.setPulseAmplitudeRed(0x1F);
     particleSensor.setPulseAmplitudeIR(0x1F);
     particleSensor.setPulseAmplitudeGreen(0);

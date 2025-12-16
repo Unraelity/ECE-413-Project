@@ -13,7 +13,6 @@ const int led = D7;  // on-board LED
 const int SPO2_SAMPLES = 50;     // more = smoother but slower
 const long FINGER_IR_THRESHOLD = 10000;
 
-// Quick-and-dirty SpO2 estimate using ratio-of-ratios:
 // R = (ACred/DCred) / (ACir/DCir)
 // SpO2 ≈ 110 - 25*R  (common rough approximation)
 float estimateSpO2Burst() {
@@ -24,7 +23,7 @@ float estimateSpO2Burst() {
     double meanIR  = 0, m2IR  = 0;
 
     while (count < SPO2_SAMPLES) {
-        particleSensor.check(); // load new samples into FIFO
+        particleSensor.check();
 
         while (particleSensor.available() && count < SPO2_SAMPLES) {
             long red = particleSensor.getRed();
@@ -43,7 +42,7 @@ float estimateSpO2Burst() {
             meanIR += di / count;
             m2IR   += di * (ir - meanIR);
         }
-        delay(1); // tiny yield
+        delay(1);
     }
 
     if (count < 2) return 0.0f;
@@ -100,10 +99,8 @@ void loop() {
     float spo2 = 0.0f;
 
     if (irValue > FINGER_IR_THRESHOLD) {
-        // keep your existing simple BPM estimate (UNCHANGED)
         beatsPerMinute = irValue / 1831.0;
 
-        // NEW: try computing SpO2 from burst of samples
         spo2 = estimateSpO2Burst();
 
         Serial.printlnf("Finger detected (IR: %ld) -> HR: %.1f, SpO2: %.1f",
@@ -114,7 +111,6 @@ void loop() {
         Serial.printlnf("No finger detected (IR: %ld)", irValue);
     }
 
-    // Publish BOTH values as JSON
     String payload = String::format("{\"hr\":%.1f,\"spo2\":%.1f}", beatsPerMinute, spo2);
     Particle.publish("temp", payload, PRIVATE);
     Serial.printlnf("Published: %s", payload.c_str());
