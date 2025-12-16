@@ -4,7 +4,7 @@ Heart Track is an IoT and Web platform that collects heart-rate (HR) and SpO2 re
 ## Important Links
 - Server (Web App + API): http://ec2-3-138-107-164.us-east-2.compute.amazonaws.com:3000
 - Pitch Video: TODO_PASTE_PITCH_VIDEO_LINK_HERE
-- Demonstration Video: TODO_PASTE_DEMO_VIDEO_LINK_HERE
+- Demonstration Video: https://www.youtube.com/watch?v=1icNy9sg9wM
 
 ## Demo Login (Existing Account with Recent Data)
 
