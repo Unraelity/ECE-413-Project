@@ -18,20 +18,6 @@ function isStrongPassword(pw) {
 
 const secret = fs.readFileSync(__dirname + '/../keys/jwtkey').toString();
 
-// auth middleware (for this router)
-function auth(req, res, next) {
-  const token = req.headers["x-auth"];
-  if (!token) return res.status(401).json({ error: "Missing X-Auth header" });
-
-  try {
-    const decoded = jwt.decode(token, secret); // { email: ... }
-    req.user = decoded;
-    next();
-  } catch (ex) {
-    return res.status(401).json({ error: "Invalid JWT" });
-  }
-}
-
 // example of authentication
 // register a new customer
 
