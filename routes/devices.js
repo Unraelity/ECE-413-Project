@@ -24,7 +24,7 @@ router.post("/", auth, async (req, res) => {
 // get user device
 router.get("/", auth, async (req, res) => {
   const me = await Customer.findOne({ email: req.user.email });
-  const list = await Device.find({ ownerId: me._id }).select("_id name apiKey");
+  const list = await Device.find({ ownerId: me._id }).select("_id name particleId apiKey")
   return res.json(list);
 });
 

@@ -5,10 +5,6 @@ const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
 const fs = require('fs');
 
-// On AWS ec2, you can use to store the secret in a separate file. 
-// The file should be stored outside of your code directory. 
-// For encoding/decoding JWT
-
 const secret = fs.readFileSync(__dirname + '/../keys/jwtkey').toString();
 
 // example of authentication
@@ -107,6 +103,54 @@ router.get("/status", function (req, res) {
    catch (ex) {
        res.status(401).json({ success: false, message: "Invalid JWT" });
    }
+});
+
+// Measurement Schedule
+// GET /customers/settings  -> { startTime, endTime, freqMins }
+router.get("/settings", auth, async (req, res) => {
+  try {
+    const me = await Customer.findOne({ email: req.user.email })
+      .select("startTime endTime freqMins");
+
+    if (!me) return res.status(404).json({ error: "User not found" });
+
+    return res.json({
+      startTime: me.startTime || "06:00",
+      endTime: me.endTime || "22:00",
+      freqMins: Number.isFinite(me.freqMins) ? me.freqMins : 30
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+});
+
+// PUT /customers/settings  body: { startTime, endTime, freqMins }
+router.put("/settings", auth, async (req, res) => {
+  try {
+    const { startTime, endTime, freqMins } = req.body || {};
+
+    const hhmm = /^\d{2}:\d{2}$/;
+    if (!hhmm.test(String(startTime)) || !hhmm.test(String(endTime))) {
+      return res.status(400).json({ error: "startTime/endTime must be HH:MM" });
+    }
+
+    const f = parseInt(freqMins, 10);
+    if (!Number.isFinite(f) || f < 1 || f > 1440) {
+      return res.status(400).json({ error: "freqMins must be between 1 and 1440" });
+    }
+
+    const me = await Customer.findOne({ email: req.user.email });
+    if (!me) return res.status(404).json({ error: "User not found" });
+
+    me.startTime = startTime;
+    me.endTime = endTime;
+    me.freqMins = f;
+    await me.save();
+
+    return res.json({ ok: true });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 });
 
 module.exports = router;

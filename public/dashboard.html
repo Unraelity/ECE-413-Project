@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="/javascripts/dashboard.js"></script>
 </head>
+
 <body class="bg-az-white">
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
@@ -26,7 +27,32 @@
       <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
     </section>
 
-    <section class="card">
+    <section class="card" style="margin-bottom:16px">
+      <div class="section-head">
+        <h2 class="text-az-blue" style="margin:0">Measurement Schedule</h2>
+        <div style="display:flex; align-items:center; gap:10px">
+          <span id="scheduleStatus" class="muted small"></span>
+          <button id="btnSaveSchedule" type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+
+      <div class="form-inline" style="flex-wrap:wrap; gap:12px">
+        <label for="cfgStart" class="muted">Start</label>
+        <input id="cfgStart" type="time" />
+
+        <label for="cfgEnd" class="muted">End</label>
+        <input id="cfgEnd" type="time" />
+
+        <label for="cfgFreq" class="muted">Frequency (min)</label>
+        <input id="cfgFreq" type="number" min="1" step="1" style="max-width:140px" />
+      </div>
+
+      <p class="muted small" style="margin-bottom:0">
+        Defines the time-of-day range and how often measurements should be requested.
+      </p>
+    </section>
+
+    <section class="card" style="margin-bottom:16px">
       <div class="section-head">
         <h2 class="text-az-blue" style="margin:0">Daily Detail</h2>
         <div class="form-inline">
@@ -34,54 +60,51 @@
           <input type="date" id="dayPick" />
         </div>
       </div>
-      <div class="chart-wrap"><canvas id="dayChart"></canvas></div>
+
+      <div class="charts-grid">
+        <div class="chart-wrap chart-wrap-sm"><canvas id="hrChart"></canvas></div>
+        <div class="chart-wrap chart-wrap-sm"><canvas id="spo2Chart"></canvas></div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-bottom:16px">
+      <div class="section-head">
+        <h2 class="text-az-blue" style="margin:0">Devices</h2>
+        <button id="btnRefreshDevices" type="button" class="btn btn-ghost">Refresh</button>
+      </div>
+
+      <div class="form-inline" style="flex-wrap:wrap;gap:12px;margin-bottom:8px">
+        <label for="deviceName" class="muted">Name</label>
+        <input id="deviceName" type="text" placeholder="My Device" />
+        <label for="particleId" class="muted">Particle Device ID</label>
+        <input id="particleId" type="text" placeholder="e.g., e00fce0XXXXXXX" />
+        <button id="btnRegisterDevice" type="button" class="btn btn-primary">Register Device</button>
+      </div>
+
+      <div id="devicesList" class="devices-list muted"></div>
     </section>
   </main>
-
-  <section class="card" style="margin-bottom:16px">
-    <div class="section-head">
-      <h2 class="text-az-blue" style="margin:0">Devices</h2>
-      <button id="btnRefreshDevices" class="btn btn-ghost">Refresh</button>
-    </div>
-
-    <div class="form-inline" style="flex-wrap:wrap;gap:12px;margin-bottom:8px">
-      <label for="deviceName" class="muted">Name</label>
-      <input id="deviceName" type="text" placeholder="My Device" />
-      <label for="particleId" class="muted">Particle Device ID</label>
-      <input id="particleId" type="text" placeholder="e.g., e00fce0XXXXXXX" />
-      <button id="btnRegisterDevice" class="btn btn-primary">Register Device</button>
-    </div>
-
-    <div id="devicesList" class="devices-list muted"><!-- rendered by JS --></div>
-  </section>
 
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
     </div>
   </footer>
-  <!-- Floating Chat Icon -->
-  <button id="chatButton" class="chat-button">
-      💬
-  </button>
 
-  <!-- Slide-in Chat Panel -->
+  <button id="chatButton" class="chat-button">💬</button>
+
   <div id="chatPanel" class="chat-panel">
+    <div class="chat-header">
+      <span>AI Health Assistant</span>
+      <button id="closeChat" class="close-chat-btn">✖</button>
+    </div>
 
-      <div class="chat-header">
-          <span>AI Health Assistant</span>
-          <button id="closeChat" class="close-chat-btn">✖</button>
-      </div>
+    <div id="chatMessages" class="chat-messages"></div>
 
-      <div id="chatMessages" class="chat-messages">
-          <!-- messages inserted by JS -->
-      </div>
-
-      <div class="chat-input-area">
-          <input id="chatInput" type="text" placeholder="Ask a question…" />
-          <button id="chatSendBtn">Send</button>
-      </div>
-
+    <div class="chat-input-area">
+      <input id="chatInput" type="text" placeholder="Ask a question…" />
+      <button id="chatSendBtn" type="button">Send</button>
+    </div>
   </div>
 </body>
 </html>
