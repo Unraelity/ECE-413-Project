@@ -36,51 +36,54 @@ const secret = fs.readFileSync(__dirname + '/../keys/jwtkey').toString();
 // Expects body: { email, password }
 // Creates a new customer with a bcrypt password hash.
 router.post("/signUp", function (req, res) {
+  const email = (req.body?.email || "").trim().toLowerCase();
+  const password = req.body?.password;
+
+  // Basic input checks
+  if (!email || typeof password !== "string") {
+    return res.status(400).json({ success: false, msg: "Missing email and/or password" });
+  }
+
+  if (!isStrongPassword(password)) {
+    return res.status(400).json({
+      success: false,
+      msg: "Password must have at least 8 characters with uppercase, lowercase, number, and special character."
+    });
+  }
 
   // Check if a customer already exists with the submitted email
-  Customer.findOne({ email: req.body.email }, function (err, customer) {
-
-    // DB error (401 is a bit unusual for DB errors; often 500/400)
-    if (err) res.status(401).json({ success: false, err: err });
+  Customer.findOne({ email: email }, function (err, customer) {
+    if (err) {
+      return res.status(500).json({ success: false, err: err });
+    }
 
     // Email already in use
-    else if (customer) {
-      res.status(401).json({ success: false, msg: "This email already used" });
+    if (customer) {
+      return res.status(409).json({ success: false, msg: "This email already used" });
     }
 
-    // Create new account
-    else {
-      // Hash the password (salt rounds = 10)
-      const passwordHash = bcrypt.hashSync(req.body.password, 10);
+    // Hash the password (salt rounds = 10)
+    const passwordHash = bcrypt.hashSync(password, 10);
 
-      // Build the new Customer document (store hash, NOT raw password)
-      const newCustomer = new Customer({
-        email: req.body.email,
-        passwordHash: passwordHash
-      });
+    // Build the new Customer document
+    const newCustomer = new Customer({
+      email: email,
+      passwordHash: passwordHash
+    });
 
-      // Save to MongoDB
-      newCustomer.save(function (err, customer) {
-        if (err) {
-          // Validation/DB save error
-          res.status(400).json({ success: false, err: err });
+    // Save to MongoDB
+    newCustomer.save(function (err, customer) {
+      if (err) {
+        if (err.code === 11000) {
+          return res.status(409).json({ success: false, msg: "This email already used" });
         }
-        // Password-strength check (NOTE: currently happens AFTER saving)
-        // Ideally you'd validate BEFORE saving so weak passwords never get stored.
-        else if (!isStrongPassword(req.body.password)) {
-          return res.status(400).json({
-            success: false,
-            msg: "Password must have at least 8 characters with uppercase, lowercase, number, and special character."
-          });
-        }
-        // Success response
-        else {
-          let msgStr = `Customer (${req.body.email}) account has been created.`;
-          res.status(201).json({ success: true, message: msgStr });
-          console.log(msgStr);
-        }
-      });
-    }
+        return res.status(400).json({ success: false, err: err });
+      }
+
+      let msgStr = `Customer (${email}) account has been created.`;
+      console.log(msgStr);
+      return res.status(201).json({ success: true, message: msgStr });
+    });
   });
 });
 
