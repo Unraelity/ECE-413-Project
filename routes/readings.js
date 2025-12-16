@@ -104,3 +104,4 @@ router.get("/weekly-summary", auth, async (req, res) => {
 
   res.json(agg);
 });
+module.exports = router;
