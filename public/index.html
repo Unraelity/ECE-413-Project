@@ -1,37 +1,68 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
+  <!-- Character encoding + responsive layout -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Browser tab title -->
   <title>Heart Track — About</title>
+
+  <!-- Site-wide stylesheet (colors, layout, cards, etc.) -->
   <link rel="stylesheet" href="/stylesheets/site.css">
+
+  <!-- Navbar auth logic:
+       - Shows/hides Dashboard link based on token
+       - Injects Log In/Sign Up OR Log Out button into #authArea
+       (Loaded with defer so DOM exists before it runs) -->
   <script defer src="/javascripts/authnav.js"></script>
 </head>
+
 <body class="bg-az-white">
+  <!-- Top navigation bar -->
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
+      <!-- Current page: About (underlined) -->
       <a class="text-az-white" href="/index.html" style="margin-left:16px;text-decoration:underline">About</a>
+
+      <!-- Dashboard link starts hidden; authnav.js shows it only if logged in -->
       <a id="navDashboard" class="text-az-white" href="/dashboard.html" style="display:none; margin-left:16px">Dashboard</a>
+
+      <!-- References page link -->
       <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
+
+      <!-- Spacer pushes auth controls to the right -->
       <span style="margin-left:auto"></span>
+
+      <!-- Placeholder where authnav.js injects:
+           - "Log In/Sign Up" link when logged out
+           - "Log Out" button when logged in -->
       <span id="authArea"></span>
     </div>
   </nav>
 
+  <!-- Main page content -->
   <main class="container">
+    <!-- Page heading -->
     <h1 class="text-az-blue" style="margin-top:0">Meet the Team</h1>
     <p class="muted">Web Programming &amp; IoT • University of Arizona</p>
 
+    <!-- Team member cards laid out using CSS grid (.team-grid) -->
     <section class="team-grid">
+
+      <!-- Member: Nick -->
       <article class="member-card">
+        <!-- Profile photo -->
         <img src="/images/nick-brown.jpg" alt="Picture of Nick Brown" class="member-photo">
         <div class="member-body">
           <h3 class="member-name">Nick Brown</h3>
           <p class="member-role">Electrical &amp; Computer Engineering</p>
+          <!-- Email link opens the user's email client -->
           <p><a href="mailto:nickbrown@arizona.edu">nickbrown@arizona.edu</a></p>
         </div>
       </article>
 
+      <!-- Member: Abdullah -->
       <article class="member-card">
         <img src="/images/abdullah-al-sahli.jpg" alt="Picture of Abdullah Al Sahli" class="member-photo">
         <div class="member-body">
@@ -41,6 +72,7 @@
         </div>
       </article>
 
+      <!-- Member: Nathan -->
       <article class="member-card">
         <img src="/images/nathan-vance.jpg" alt="Picture of Nathan Vance" class="member-photo">
         <div class="member-body">
@@ -49,13 +81,16 @@
           <p><a href="mailto:nathanvance@arizona.edu">nathanvance@arizona.edu</a></p>
         </div>
       </article>
+
     </section>
   </main>
 
+  <!-- Footer / credits -->
   <footer class="site-footer">
     <div class="container">
       <p>
-        &copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona
+        &copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT,
+        Electrical and Computer Engineering, University of Arizona
       </p>
     </div>
   </footer>

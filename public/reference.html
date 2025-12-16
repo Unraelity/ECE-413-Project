@@ -1,52 +1,120 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Character encoding + responsive layout -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Browser tab title -->
   <title>Heart Track — References</title>
+
+  <!-- Site-wide stylesheet (layout/colors/cards) -->
   <link rel="stylesheet" href="/stylesheets/site.css">
-   <script defer src="/javascripts/authnav.js"></script>
+
+  <!-- Navbar auth logic:
+       - Shows/hides Dashboard link based on token
+       - Injects Log In/Sign Up OR Log Out into #authArea
+       (Loaded with defer so DOM exists before it runs) -->
+  <script defer src="/javascripts/authnav.js"></script>
 </head>
+
 <body class="bg-az-white">
+  <!-- Top navigation bar -->
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
+      <!-- About link -->
       <a class="text-az-white" href="/index.html">About</a>
-      <a id="navDashboard" class="text-az-white" href="/dashboard.html" style="display:none; margin-left:16px">Dashboard</a>
-      <a class="text-az-white" href="/reference.html" style="margin-left:16px;text-decoration:underline">References</a>
+
+      <!-- Dashboard link starts hidden; authnav.js shows it only when logged in -->
+      <a id="navDashboard" class="text-az-white" href="/dashboard.html"
+         style="display:none; margin-left:16px">Dashboard</a>
+
+      <!-- Current page: References (underlined) -->
+      <a class="text-az-white" href="/reference.html"
+         style="margin-left:16px;text-decoration:underline">References</a>
+
+      <!-- Spacer pushes auth controls to the right -->
       <span style="margin-left:auto"></span>
+
+      <!-- Placeholder where authnav.js injects login/logout UI -->
       <span id="authArea"></span>
     </div>
   </nav>
 
+  <!-- Main page content -->
   <main class="container">
+    <!-- Page title / subtitle -->
     <h1 class="text-az-blue" style="margin-top:0">References</h1>
-    <p class="muted"><span class="badge">Third-party APIs • Libraries • Code</span></p>
+    <p class="muted">
+      <!-- Badge label for what these references cover -->
+      <span class="badge">Third-party APIs • Libraries • Code</span>
+    </p>
 
+    <!-- Grid of reference cards -->
     <section class="cards-grid">
+
+      <!-- Chart.js reference -->
       <article class="card">
         <h3>Chart.js</h3>
         <p>Charts for weekly and daily views.</p>
+        <!-- Displayed as code-like text (not clickable unless you wrap in <a>) -->
         <span class="ref-code">https://www.chartjs.org/</span>
       </article>
 
+      <!-- Express reference -->
       <article class="card">
         <h3>Express</h3>
-        <p>Server framework for REST endpoints.</p>
+        <p>Server framework.</p>
         <span class="ref-code">https://expressjs.com/</span>
       </article>
 
+      <!-- MongoDB + Mongoose reference -->
       <article class="card">
         <h3>MongoDB &amp; Mongoose</h3>
-        <p>Database and object modeling.</p>
+        <p>Database.</p>
         <span class="ref-code">https://mongoosejs.com/</span>
+      </article>
+
+      <!-- SparkFun MAX30105 library reference -->
+      <article class="card">
+        <h3>SparkFun MAX3010x Sensor Library (MAX30105)</h3>
+        <p>MAX30105 I2C communication and configuration.</p>
+
+        <!-- Two source files referenced -->
+        <span class="ref-code">
+          https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/blob/master/src/MAX30105.h
+        </span><br>
+        <span class="ref-code">
+          https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/blob/master/src/MAX30105.cpp
+        </span><br>
+      </article>
+
+      <!-- Luxon reference -->
+      <article class="card">
+        <h3>Luxon</h3>
+        <p>Date/time library used for time zone handling.</p>
+        <span class="ref-code">https://moment.github.io/luxon/</span><br>
+        <span class="ref-code">https://www.npmjs.com/package/luxon</span>
+      </article>
+
+      <!-- Axios reference -->
+      <article class="card">
+        <h3>Axios</h3>
+        <p>Making API requests from browser.</p>
+        <span class="ref-code">https://axios-http.com/docs/intro</span><br>
+        <span class="ref-code">https://github.com/axios/axios</span>
       </article>
 
     </section>
   </main>
 
+  <!-- Footer / credits -->
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
+      <p>
+        &copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT,
+        Electrical and Computer Engineering, University of Arizona
+      </p>
     </div>
   </footer>
 </body>

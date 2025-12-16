@@ -1,14 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Character encoding + responsive layout -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Browser tab title -->
   <title>Heart Track — Log In</title>
+
+  <!-- Site-wide stylesheet -->
   <link rel="stylesheet" href="/stylesheets/site.css">
+
+  <!-- jQuery (login.js uses $ / $.ajax) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Login page logic (defer runs after DOM is parsed) -->
   <script defer src="/javascripts/login.js"></script>
 </head>
+
 <body class="bg-az-white">
+  <!-- Simple nav bar (no Dashboard link because user may not be logged in yet) -->
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
       <a class="text-az-white" href="/index.html">About</a>
@@ -16,31 +27,55 @@
     </div>
   </nav>
 
+  <!-- Main page content -->
   <main class="container">
+    <!-- Page title / description -->
     <h1 class="text-az-blue" style="margin-top:0">Log In</h1>
     <p class="muted">Access your Heart Track dashboard.</p>
 
+    <!-- Card container for the login form -->
     <section class="card" style="max-width:520px">
       <div class="form-grid">
+        <!-- Email field -->
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@arizona.edu" autocomplete="username" />
+        <input
+          id="email"
+          type="email"
+          placeholder="you@arizona.edu"
+          autocomplete="username"
+        />
 
+        <!-- Password field -->
         <label for="password">Password</label>
-        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
 
+        <!-- Actions: submit login + link to signup -->
         <div class="form-actions">
+          <!-- login.js attaches click handler to #btnLogIn -->
           <button id="btnLogIn" class="btn btn-primary">Log In</button>
+
+          <!-- Navigate to signup page -->
           <a href="/signup.html" class="btn btn-ghost">Create an account</a>
         </div>
       </div>
 
+      <!-- Debug/error output area (login.js writes error JSON here on failure) -->
       <pre id="rxData" class="muted" style="margin-top:12px; overflow:auto"></pre>
     </section>
   </main>
 
+  <!-- Footer / credits -->
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
+      <p>
+        &copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT,
+        Electrical and Computer Engineering, University of Arizona
+      </p>
     </div>
   </footer>
 </body>

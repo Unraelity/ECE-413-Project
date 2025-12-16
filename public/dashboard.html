@@ -1,26 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Character encoding + responsive layout -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Browser tab title -->
   <title>Heart Track — Dashboard</title>
+
+  <!-- Your site-wide CSS -->
   <link rel="stylesheet" href="/stylesheets/site.css">
+
+  <!-- jQuery (used heavily in dashboard.js) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Chart.js (used for weekly + daily charts) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Dashboard logic (defer waits until HTML is parsed before running) -->
   <script defer src="/javascripts/dashboard.js"></script>
 </head>
 
 <body class="bg-az-white">
+  <!-- Top navigation bar -->
   <nav class="nav-wrapper bg-az-blue" role="navigation">
     <div class="container">
+      <!-- Left-side nav links -->
       <a class="text-az-white" href="/index.html">About</a>
+      <!-- Current page: Dashboard (underlined) -->
       <a class="text-az-white" href="/dashboard.html" style="margin-left:16px;text-decoration:underline">Dashboard</a>
       <a class="text-az-white" href="/reference.html" style="margin-left:16px">References</a>
+
+      <!-- Spacer to push Log Out button to the right -->
       <span style="margin-left:auto"></span>
+
+      <!-- Log Out button (dashboard.js should attach click handler to clear token + redirect) -->
       <button id="btnLogOut" type="button" class="btn btn-nav">Log Out</button>
     </div>
   </nav>
 
+  <!-- Hidden reading reminder prompt; dashboard.js / FSM toggles this display -->
   <div id="readingPrompt" class="prompt-card" style="display:none; margin-bottom:16px">
     <div class="prompt-title text-az-blue" style="font-weight:700; font-size:18px">
       Time to take a reading
@@ -28,6 +47,8 @@
     <div class="prompt-body muted" style="margin-top:6px">
       Place your finger on the sensor and wait for your device to publish the reading.
     </div>
+
+    <!-- Prompt action buttons (dashboard.js binds these to FSM events) -->
     <div class="prompt-actions" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
       <button id="btnPromptDone" type="button" class="btn btn-primary">I took it</button>
       <button id="btnPromptSnooze" type="button" class="btn btn-ghost">Snooze 5 min</button>
@@ -35,76 +56,111 @@
     </div>
   </div>
 
+  <!-- Main page content container -->
   <main class="container">
+
+    <!-- Weekly Summary section -->
     <section class="card" style="margin-bottom:16px">
       <h2 class="text-az-blue" style="margin-top:0">Weekly Summary</h2>
+
+      <!-- Chart.js will draw the 7-day summary into this canvas -->
       <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
     </section>
 
+    <!-- Measurement Schedule section -->
     <section class="card" style="margin-bottom:16px">
       <div class="section-head">
         <h2 class="text-az-blue" style="margin:0">Measurement Schedule</h2>
+
+        <!-- Right side: status text + Save button -->
         <div style="display:flex; align-items:center; gap:10px">
+          <!-- dashboard.js updates this with "Loading…", "Saving…", "Saved", etc. -->
           <span id="scheduleStatus" class="muted small"></span>
+
+          <!-- Save schedule settings button -->
           <button id="btnSaveSchedule" type="button" class="btn btn-primary">Save</button>
         </div>
       </div>
 
+      <!-- Frequency input (minutes). dashboard.js reads/writes this value via /customers/settings -->
       <div class="form-inline" style="flex-wrap:wrap; gap:12px">
         <label for="cfgFreq" class="muted">Frequency</label>
         <input id="cfgFreq" type="number" min="1" step="1" style="max-width:140px" />
       </div>
     </section>
 
+    <!-- Daily detail charts (HR + SpO2 for a selected day) -->
     <section class="card" style="margin-bottom:16px">
       <div class="section-head">
         <h2 class="text-az-blue" style="margin:0">Daily Detail</h2>
+
+        <!-- Date picker for choosing which day to view -->
         <div class="form-inline">
           <label for="dayPick" class="muted">Date</label>
           <input type="date" id="dayPick" />
         </div>
       </div>
 
+      <!-- Two charts side-by-side (depending on CSS grid rules) -->
       <div class="charts-grid">
+        <!-- Heart rate chart canvas -->
         <div class="chart-wrap chart-wrap-sm"><canvas id="hrChart"></canvas></div>
+        <!-- SpO2 chart canvas -->
         <div class="chart-wrap chart-wrap-sm"><canvas id="spo2Chart"></canvas></div>
       </div>
     </section>
 
+    <!-- Device registration / list section -->
     <section class="card" style="margin-bottom:16px">
       <div class="section-head">
         <h2 class="text-az-blue" style="margin:0">Devices</h2>
+
+        <!-- Reload devices list -->
         <button id="btnRefreshDevices" type="button" class="btn btn-ghost">Refresh</button>
       </div>
 
+      <!-- Device registration form: name + Particle device ID -->
       <div class="form-inline" style="flex-wrap:wrap;gap:12px;margin-bottom:8px">
         <label for="deviceName" class="muted">Name</label>
         <input id="deviceName" type="text" placeholder="My Device" />
+
         <label for="particleId" class="muted">Particle Device ID</label>
         <input id="particleId" type="text" placeholder="e.g., e00fce0XXXXXXX" />
+
+        <!-- dashboard.js sends POST /devices when clicked -->
         <button id="btnRegisterDevice" type="button" class="btn btn-primary">Register Device</button>
       </div>
 
+      <!-- dashboard.js renders the device list into this container -->
       <div id="devicesList" class="devices-list muted"></div>
     </section>
   </main>
 
+  <!-- Footer / credits -->
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance · Web Development and IoT, Electrical and Computer Engineering, University of Arizona</p>
+      <p>
+        &copy; 2025, Nick Brown, Abdullah Al Sahli &amp; Nathan Vance
+        · Web Development and IoT, Electrical and Computer Engineering, University of Arizona
+      </p>
     </div>
   </footer>
 
+  <!-- Floating chat button that opens the AI assistant panel -->
   <button id="chatButton" class="chat-button">💬</button>
 
+  <!-- Chat panel UI (dashboard.js wires up open/close + send message) -->
   <div id="chatPanel" class="chat-panel">
     <div class="chat-header">
       <span>AI Health Assistant</span>
+      <!-- Closes chat panel -->
       <button id="closeChat" class="close-chat-btn">✖</button>
     </div>
 
+    <!-- Messages are appended here as chat bubbles -->
     <div id="chatMessages" class="chat-messages"></div>
 
+    <!-- Input row: user types a question + hits Send/Enter -->
     <div class="chat-input-area">
       <input id="chatInput" type="text" placeholder="Ask a question…" />
       <button id="chatSendBtn" type="button">Send</button>

@@ -2,28 +2,59 @@
 <html lang="en">
   <head>
     <title>Account</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Character encoding + responsive layout on mobile -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS (for basic styling/layout) -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library (required by your account.js since it uses $ and $.ajax) -->
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+    ></script>
+
+    <!-- Your page logic: loads account.js which requests /customers/status and sets up logout -->
     <script src="javascripts/account.js"></script>
   </head>
+
   <body>
+    <!-- Main Bootstrap container -->
     <div class="container">
+      <!-- Simple link back to the homepage -->
       <a href="index.html" class="left brand-logo valign-wrapper">Home</a>
-      <br/>
+
+      <br />
+
+      <!-- Page title -->
       <h1>Token-based User authenticiation example - Account</h1>
-      <br/>
+
+      <br />
+
+      <!-- Logout button (account.js binds a click handler to this) -->
       <div>
         <button id="btnLogOut">LogOut</button>
       </div>
     </div>
-    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw; ">
+
+    <!-- Output area for displaying server responses (account.js writes JSON here) -->
+    <div style="display:inline-block; width:45vw; height: 60vh; margin: 2vh 20vw;">
       <label for="rxData">Message: </label>
+
+      <!-- Textarea where the returned /customers/status JSON is shown -->
       <textarea id="rxData" style="width:100%; height:100%"></textarea>
     </div>
+
+    <!-- Inline auth guard: if no token exists, redirect away from this page -->
     <script>
       (function () {
+        // If the user is not logged in (no token in localStorage),
+        // redirect them to display.html (likely your login/register page)
         if (!window.localStorage.getItem("token")) {
           window.location.replace("display.html");
         }
