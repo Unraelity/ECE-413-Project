@@ -6,7 +6,6 @@ Heart Track is an IoT and Web platform that collects heart-rate (HR) and SpO2 re
 - Pitch Video: https://www.youtube.com/watch?v=m96LOOGhctQ
 - Demonstration Video: https://www.youtube.com/watch?v=1icNy9sg9wM
 
-
 ## Demo Login (Existing Account with Recent Data)
 
 - Email: nickbrown@arizona.edu  
