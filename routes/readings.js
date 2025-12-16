@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
   let spo2;
 
   try {
-    const payload = JSON.parse(reading); // reading is JSON string now
+    const payload = JSON.parse(reading);
     if (payload && typeof payload === "object") {
       hr = Number(payload.hr);
       spo2 = Number(payload.spo2);
@@ -37,13 +37,17 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Invalid hr" });
   }
 
-  // if spo2 didn't come through, set a default
-  if (!Number.isFinite(spo2)) spo2 = 75;
+  if (!Number.isFinite(spo2)) {
+    return res.status(400).json({ error: "Invalid spo2" });
+  }
+
+  if ((Number(hr) === 0) && (Number(spo2) === 0)) {
+    return res.status(400).json({ error: "Invalid reading (hr/spo2 both 0)" });
+  } 
 
   const dev = await Device.findOne({ particleId: deviceId }).select("_id");
   if (!dev) return res.status(404).json({ error: "Device not registered" });
 
-  // ts may still be top-level (your current webhook), but allow payload ts later if you add it
   let stamp = new Date();
   const ts = topTs;
   if (ts) {
