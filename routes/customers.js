@@ -3,7 +3,18 @@ var router = express.Router();
 var Customer = require("../models/customer");
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
+const auth = require("../middleware/auth");
 const fs = require('fs');
+
+function isStrongPassword(pw) {
+  // strong password is at least 8 characterss, at least 1 lowercase, 1 uppercase, 1 number and 1 special
+  return typeof pw === "string"
+    && pw.length >= 8
+    && /[a-z]/.test(pw)
+    && /[A-Z]/.test(pw)
+    && /\d/.test(pw)
+    && /[^A-Za-z0-9]/.test(pw);
+}
 
 const secret = fs.readFileSync(__dirname + '/../keys/jwtkey').toString();
 
@@ -45,6 +56,12 @@ router.post("/signUp", function (req, res) {
                if (err) {
                    res.status(400).json({ success: false, err: err });
                }
+               else if (!isStrongPassword(req.body.password)) {
+                    return res.status(400).json({
+                    success: false,
+                    msg: "Password must have at least 8 characters with uppercase, lowercase, number, and special character."
+                    });
+                }
                else {
                    let msgStr = `Customer (${req.body.email}) account has been created.`;
                    res.status(201).json({ success: true, message: msgStr });
@@ -120,17 +137,12 @@ router.get("/status", function (req, res) {
 });
 
 // Measurement Schedule
-// GET /customers/settings  -> { startTime, endTime, freqMins }
 router.get("/settings", auth, async (req, res) => {
   try {
-    const me = await Customer.findOne({ email: req.user.email })
-      .select("startTime endTime freqMins");
-
+    const me = await Customer.findOne({ email: req.user.email }).select("freqMins");
     if (!me) return res.status(404).json({ error: "User not found" });
 
     return res.json({
-      startTime: me.startTime || "06:00",
-      endTime: me.endTime || "22:00",
       freqMins: Number.isFinite(me.freqMins) ? me.freqMins : 30
     });
   } catch (e) {
@@ -138,17 +150,9 @@ router.get("/settings", auth, async (req, res) => {
   }
 });
 
-// PUT /customers/settings  body: { startTime, endTime, freqMins }
 router.put("/settings", auth, async (req, res) => {
   try {
-    const { startTime, endTime, freqMins } = req.body || {};
-
-    const hhmm = /^\d{2}:\d{2}$/;
-    if (!hhmm.test(String(startTime)) || !hhmm.test(String(endTime))) {
-      return res.status(400).json({ error: "startTime/endTime must be HH:MM" });
-    }
-
-    const f = parseInt(freqMins, 10);
+    const f = parseInt(req.body?.freqMins, 10);
     if (!Number.isFinite(f) || f < 1 || f > 1440) {
       return res.status(400).json({ error: "freqMins must be between 1 and 1440" });
     }
@@ -156,8 +160,6 @@ router.put("/settings", auth, async (req, res) => {
     const me = await Customer.findOne({ email: req.user.email });
     if (!me) return res.status(404).json({ error: "User not found" });
 
-    me.startTime = startTime;
-    me.endTime = endTime;
     me.freqMins = f;
     await me.save();
 
@@ -165,6 +167,20 @@ router.put("/settings", auth, async (req, res) => {
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
+});
+
+// check latest reading for this user (for asking user to take reading every 30 minutes)
+router.get("/latest", auth, async (req, res) => {
+  const Customer = require("../models/customer");
+  const me = await Customer.findOne({ email: req.user.email });
+  const devs = await Device.find({ ownerId: me._id }).select("_id");
+  const ids = devs.map(d => d._id);
+
+  const last = await Reading.findOne({ deviceId: { $in: ids } })
+    .sort({ ts: -1 })
+    .select("ts hr spo2");
+
+  res.json(last || null);
 });
 
 module.exports = router;
