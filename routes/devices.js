@@ -13,10 +13,9 @@ router.post("/", auth, async (req, res) => {
     if (!owner) return res.status(404).json({ error: "Owner not found" });
     const { name, particleId } = req.body;
     if (!name) return res.status(400).json({ error: "Missing name" });
-    const apiKey = crypto.randomBytes(16).toString("hex");
-    const dev = await Device.create({ ownerId: owner._id, name, particleId, apiKey });
+    const dev = await Device.create({ ownerId: owner._id, name, particleId});
     return res.status(201).json({
-      _id: dev._id, name: dev.name, particleId: dev.particleId, apiKey: dev.apiKey
+      _id: dev._id, name: dev.name, particleId: dev.particleId
     });
   } catch (e) { return res.status(500).json({ error: e.message }); }
 });
@@ -24,7 +23,7 @@ router.post("/", auth, async (req, res) => {
 // get user device
 router.get("/", auth, async (req, res) => {
   const me = await Customer.findOne({ email: req.user.email });
-  const list = await Device.find({ ownerId: me._id }).select("_id name particleId apiKey")
+  const list = await Device.find({ ownerId: me._id }).select("_id name particleId")
   return res.json(list);
 });
 

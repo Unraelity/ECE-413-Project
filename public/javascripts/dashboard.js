@@ -246,11 +246,6 @@ function renderDevices(list) {
             <span class="muted">Particle ID:</span>
             <span class="code-badge">${escapeHtml(particleId)}</span>
           </div>
-          ${dev.apiKey ? `
-            <div class="api-line small">
-              <span class="muted">API Key:</span>
-              <span class="code-badge">${escapeHtml(dev.apiKey)}</span>
-            </div>` : ""}
         </div>
         <button type="button" class="btn btn-ghost btn-del" data-id="${dev._id}">Delete</button>
       </div>
